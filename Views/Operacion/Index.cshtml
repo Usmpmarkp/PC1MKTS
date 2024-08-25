@@ -1,0 +1,74 @@
+@model PC1MKTS.Controllers.Operacion
+
+<form asp-controller="Operacion" asp-action="Registrar" method="post">
+    <div>
+        <label>Nombre:</label>
+        <input asp-for="Nombre" />
+    </div>
+    <div>
+        <label>Apellido:</label>
+        <input asp-for="Apellido" />
+    </div>
+    <div>
+        <label>Correo:</label>
+        <input asp-for="Correo" />
+    </div>
+    <div>
+        <label>Fecha de Operación:</label>
+        <input asp-for="FecOpe" type="date" />
+    </div>
+    <div>
+        <label>Instrumentos:</label>
+        <div>
+            <input type="checkbox" name="Instrumentos" value="S&P 500" />
+            <label>S&P 500 ($500)</label>
+        </div>
+        <div>
+            <input type="checkbox" name="Instrumentos" value="Dow Jones" />
+            <label>Dow Jones ($300)</label>
+        </div>
+        <div>
+            <input type="checkbox" name="Instrumentos" value="Bonos US" />
+            <label>Bonos US ($120)</label>
+        </div>
+    </div>
+    <div>
+        <label>Monto de Abono:</label>
+        <input asp-for="Monto" type="number" step="0.01" />
+    </div>
+    <button type="submit">Invertir</button>
+</form>
+
+@if (ViewData["Instrumentos"] != null)
+{
+    <h2>Resultados</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Instrumento</th>
+                <th>IGV</th>
+                <th>Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var instrumento in (ViewData["Instrumentos"] as string).Split(','))
+            {
+                <tr>
+                    <td>@instrumento.Trim()</td>
+                    <td>$@ViewData["IGV"]</td>
+                    <td>
+                        @(
+                            @ViewData["Monto"]
+                        )
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p><strong>Fecha:</strong> @ViewData["FecOpe"]</p>
+    <p><strong>IGV Aplicado:</strong> $@ViewData["IGV"]</p>
+    <p><strong>Comisión:</strong> $@ViewData["Comision"]</p>
+    <p><strong>Total:</strong> $@ViewData["Total"]</p>
+}
