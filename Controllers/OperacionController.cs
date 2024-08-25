@@ -8,6 +8,14 @@ using Microsoft.Extensions.Logging;
 
 namespace PC1MKTS.Controllers
 {
+        public class Operacion{
+        public string? Nom { get; set;}
+        public string? Ape { get;set;}
+        public string? Email { get; set;}
+        public DateOnly FechaOp { get; set;}
+        public List<string>? Instrumentos { get; set;}
+        public double? Monto { get; set;}
+    }
     [Route("[controller]")]
     public class OperacionController : Controller
     {
@@ -40,24 +48,24 @@ namespace PC1MKTS.Controllers
             };
 
             // Calcular el monto total de los instrumentos seleccionados
-            double montoTotalInstrumentos = operacion.Instrumentos.Sum(instrumento => precios.ContainsKey(instrumento) ? precios[instrumento] : 0);
+            double monTot = operacion.Instrumentos.Sum(instrumento => precios.ContainsKey(instrumento) ? precios[instrumento] : 0);
 
           
 
             // Calcular Comisión basada en el monto ingresado
-            double montoAbonado = operacion.Monto.HasValue ? operacion.Monto.Value : 0;
-            double comision = montoAbonado <= 300 ? 3 : 1;
-            double igv = montoAbonado * 0.18;
+            double monAbo = operacion.Monto.HasValue ? operacion.Monto.Value : 0;
+            double comision = monAbo <= 300 ? 3 : 1;
+            double igv = monAbo * 0.18;
             // Calcular Total a Pagar
-            double total = montoTotalInstrumentos + (montoAbonado + igv + comision)*operacion.Instrumentos.Count ;
+            double totalPagar = monTot + (monAbo + igv + comision)*operacion.Instrumentos.Count ;
 
             // Pasar los valores calculados a la vista
             ViewData["Instrumentos"] = string.Join(", ", operacion.Instrumentos);
-            ViewData["FecOpe"] = operacion.FecOpe.ToString("dd/MM/yyyy");
+            ViewData["FechaOp"] = operacion.FechaOp.ToString("dd/MM/yyyy");
             ViewData["IGV"] = igv.ToString("F2");
             ViewData["Comision"] = comision.ToString("F2");
-            ViewData["Total"] = total.ToString("F2");
-            ViewData["Monto"] = montoAbonado.ToString("F2");
+            ViewData["Total"] = totalPagar.ToString("F2");
+            ViewData["Monto"] = monAbo.ToString("F2");
 
             return View("Index");
         }
@@ -67,14 +75,5 @@ namespace PC1MKTS.Controllers
         {
             return View("Error!");
         }
-    }
-
-    public class Operacion{
-        public string? Nombre { get; set;}
-        public string? Apellido { get;set;}
-        public string? Correo { get; set;}
-        public DateOnly FecOpe { get; set;}
-        public List<string>? Instrumentos { get; set;}
-        public double? Monto { get; set;}
     }
 }
