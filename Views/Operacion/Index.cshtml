@@ -3,19 +3,19 @@
 <form asp-controller="Operacion" asp-action="Registrar" method="post">
     <div>
         <label>Nombre:</label>
-        <input asp-for="Nombre" />
+        <input asp-for="Nom" />
     </div>
     <div>
         <label>Apellido:</label>
-        <input asp-for="Apellido" />
+        <input asp-for="Ape" />
     </div>
     <div>
-        <label>Correo:</label>
-        <input asp-for="Correo" />
+        <label>Email:</label>
+        <input asp-for="Email" />
     </div>
     <div>
         <label>Fecha de Operación:</label>
-        <input asp-for="FecOpe" type="date" />
+        <input asp-for="FechaOp" type="date" />
     </div>
     <div>
         <label>Instrumentos:</label>
@@ -67,8 +67,7 @@
         </tbody>
     </table>
 
-    <p><strong>Fecha:</strong> @ViewData["FecOpe"]</p>
-    <p><strong>IGV Aplicado:</strong> $@ViewData["IGV"]</p>
-    <p><strong>Comisión:</strong> $@ViewData["Comision"]</p>
+    <p><strong>Fecha:</strong> @ViewData["FechaOp"]</p>
+    <p><strong>IGV:</strong> $@ViewData["IGV"]</p>
     <p><strong>Total:</strong> $@ViewData["Total"]</p>
 }
